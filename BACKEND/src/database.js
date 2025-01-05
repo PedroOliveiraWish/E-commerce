@@ -1,6 +1,6 @@
 import mysql from 'mysql2';
 
-import dotenv from 'dotenv';
+require('dotenv').config({ path: '../config/.env' });
 
 dotenv.config();
 
