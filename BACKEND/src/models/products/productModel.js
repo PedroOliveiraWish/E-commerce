@@ -31,12 +31,12 @@ const getProductById = (id) => {
 }
 
 const createProduct = (product) => {
-    const {product_name, product_description, price, stock, category, image} = product;
+    const {product_name, product_description, price, stock, category, image_url} = product;
 
-    const query = "INSERT INTO products (product_name, product_description, price, stock, category, image) VALUES (?, ?, ?, ?, ?, ?)";
+    const query = "INSERT INTO products (product_name, product_description, price, stock, category, image_url) VALUES (?, ?, ?, ?, ?, ?)";
 
     return new Promise((resolve, reject) => {
-        connection_create.query(query, [product_name, product_description, price, stock, category, image], (error, results) => {
+        connection_create.query(query, [product_name, product_description, price, stock, category, image_url], (error, results) => {
             if (error) {
                 reject(error);
                 console.error(error)

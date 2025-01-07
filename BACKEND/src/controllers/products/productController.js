@@ -27,7 +27,7 @@ const createProductController = async (req, res) => {
 
     try {
         const newProduct = await createProductService(product);
-        return res.json(newProduct);
+        return res.json({product: newProduct, message: "Product created successfully"});
     } catch (error) {
         console.error(error)
         return res.status(400).json({ message: "Error creating product" });
