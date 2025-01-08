@@ -11,8 +11,7 @@ const getAllProductsController = async (req, res) => {
 }
 
 const getProductByIdController = async (req, res) => {
-    const id = req.params;
-
+    const {id} = req.params;
     try {
          const product = await getProductByIdService(id);
          return res.json(product);

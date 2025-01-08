@@ -1,4 +1,6 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Stack from "react-bootstrap/Stack";
@@ -49,6 +51,32 @@ const cardStyles = {
 };
 
 const CardProduct = ({ product }) => {
+  const navigate = useNavigate();
+
+  const handleIdFromProduct = async (id) => {
+    console.log(id)
+
+    try {
+      const response = await fetch(`http://localhost:3001/api/products/${id}` , {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        }
+      })
+
+      if (response.ok) {
+        
+        const data = await response.json()
+        console.log(data)
+
+         navigate(`/product/${id}`, { state: { product: data} });
+      }
+
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   return (
     <Card
       key={product.id}
@@ -73,6 +101,7 @@ const CardProduct = ({ product }) => {
         </Stack>
         <Button
           style={cardStyles.button}
+          onClick={() => handleIdFromProduct(product.id)}
           onMouseOver={(e) => (e.target.style.backgroundColor = cardStyles.buttonHover.backgroundColor)}
           onMouseOut={(e) => (e.target.style.backgroundColor = cardStyles.button.backgroundColor)}
         >

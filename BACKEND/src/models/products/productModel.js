@@ -15,7 +15,7 @@ const getAllProducts = () => {
     })
 }
 
-const getProductById = (id) => { 
+const getProductById = (id) => {
     const query = "SELECT * FROM products WHERE id = ?";
 
     return new Promise((resolve, reject) => {
@@ -24,7 +24,8 @@ const getProductById = (id) => {
                 reject(error);
                 console.error(error)
             }
-
+            console.log('model')
+            console.log(results)
             resolve(results)
         })
     })

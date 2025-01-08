@@ -1,9 +1,13 @@
 import React from 'react';
 
+import { useNavigate } from 'react-router-dom';
+
 import { Navbar, Nav, Container, Button } from 'react-bootstrap';
 import { BsCart, BsPerson } from 'react-icons/bs';
 
 function Header() {
+  const navigate = useNavigate();
+
   return (
     <>
       {/* Navbar */}
@@ -20,7 +24,7 @@ function Header() {
             <Button variant="outline-dark" className="me-2">
              <Nav.Link href='/'><BsPerson /> Login</Nav.Link>
             </Button>
-            <Button variant="dark">
+            <Button variant="dark" onClick={() => navigate('/cart')}>
               <BsCart /> Cart
             </Button>
           </Navbar.Collapse>
@@ -32,7 +36,6 @@ function Header() {
         <div>
           <h1>Discover Your True Beauty ✨</h1>
           <p>Exclusive deals on the best beauty and skincare products.</p>
-          <Button variant="light" size="lg">Shop Now</Button>
         </div>
       </div>
     </>
