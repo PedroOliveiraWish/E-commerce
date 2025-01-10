@@ -1,128 +1,165 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Navbar, Nav, Container, Button } from 'react-bootstrap';
-import { BsCart, BsPerson } from 'react-icons/bs';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import {
+  AppBar,
+  Toolbar,
+  IconButton,
+  Typography,
+  Button,
+  Box,
+  Drawer,
+  List,
+  ListItem,
+  ListItemText,
+} from "@mui/material";
+import { BsCart, BsPerson } from "react-icons/bs";
+import MenuIcon from "@mui/icons-material/Menu";
+import { motion } from "framer-motion";
 
 function Header() {
   const navigate = useNavigate();
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+  const toggleDrawer = (open) => () => {
+    setIsDrawerOpen(open);
+  };
 
   return (
     <>
       {/* Navbar */}
-      <Navbar expand="lg" className="shadow-sm" style={styles.navbar}>
-        <Container>
-          <Navbar.Brand
-            href="/home"
-            style={styles.brand}
+      <AppBar position="static" sx={{ backgroundColor: "#1E1E1E" }}>
+        <Toolbar>
+          <Typography
+            variant="h6"
+            sx={{
+              flexGrow: 1,
+              color: "#FF6FAE",
+              fontWeight: "bold",
+              textDecoration: "none",
+              cursor: "pointer",
+            }}
+            onClick={() => navigate("/home")}
           >
             ✨ BeautyStore
-          </Navbar.Brand>
-          <Navbar.Toggle
-            aria-controls="basic-navbar-nav"
-            style={styles.toggle}
-          />
-          <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="ms-auto">
-              <Button
-                variant="outline-light"
-                onClick={() => navigate('/payment')}
-                style={styles.button}
-              >
-                <BsPerson /> Payment
-              </Button>
-              <Button
-                variant="outline-light"
-                className="mx-2"
-                style={styles.button}
-              >
-                <Nav.Link href="/" style={styles.navLink}>
-                  <BsPerson /> Login
-                </Nav.Link>
-              </Button>
-              <Button
-                variant="light"
-                onClick={() => navigate('/cart')}
-                style={styles.cartButton}
-              >
-                <BsCart /> Cart
-              </Button>
-            </Nav>
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
+          </Typography>
+          <Box sx={{ display: { xs: "none", md: "flex" } }}>
+            <Button
+              onClick={() => navigate("/payment")}
+              sx={{
+                color: "#FFFFFF",
+                borderColor: "#FF6FAE",
+                backgroundColor: "transparent",
+                "&:hover": { backgroundColor: "#FF6FAE", color: "#FFFFFF" },
+              }}
+              variant="outlined"
+            >
+              <BsPerson /> Payment
+            </Button>
+            <Button
+              onClick={() => navigate("/")}
+              sx={{
+                color: "#FFFFFF",
+                borderColor: "#FF6FAE",
+                marginX: 2,
+                "&:hover": { backgroundColor: "#FF6FAE", color: "#FFFFFF" },
+              }}
+              variant="outlined"
+            >
+              <BsPerson />  Login
+            </Button>
+            <Button
+              onClick={() => navigate("/cart")}
+              sx={{
+                color: "#FFFFFF",
+                backgroundColor: "#FF6FAE",
+                "&:hover": { backgroundColor: "#D4609E" },
+              }}
+            >
+              <BsCart /> Cart
+            </Button>
+          </Box>
+          <IconButton
+            sx={{ display: { xs: "flex", md: "none" }, color: "#FFFFFF" }}
+            edge="start"
+            onClick={toggleDrawer(true)}
+          >
+            <MenuIcon />
+          </IconButton>
+        </Toolbar>
+      </AppBar>
+
+      {/* Drawer for Small Screens */}
+      <Drawer
+        anchor="right"
+        open={isDrawerOpen}
+        onClose={toggleDrawer(false)}
+      >
+        <Box
+          sx={{
+            width: 250,
+            backgroundColor: "#1E1E1E",
+            height: "100%",
+            color: "#FFFFFF",
+          }}
+          role="presentation"
+          onClick={toggleDrawer(false)}
+        >
+          <List>
+            <ListItem button onClick={() => navigate("/payment")} style={{cursor: 'pointer'}}>
+              <BsPerson style={{ marginRight: 8 }} />
+              <ListItemText primary="Payment" />
+            </ListItem>
+            <ListItem button onClick={() => navigate("/")} style={{cursor: 'pointer'}}>
+              <BsPerson style={{ marginRight: 8 }} />
+              <ListItemText primary="Login" />
+            </ListItem>
+            <ListItem button onClick={() => navigate("/cart")} style={{cursor: 'pointer'}}>
+              <BsCart style={{ marginRight: 8 }} />
+              <ListItemText primary="Cart" />
+            </ListItem>
+          </List>
+        </Box>
+      </Drawer>
 
       {/* Banner */}
-      <div
-        className="banner text-center text-white d-flex align-items-center justify-content-center"
-        style={styles.banner}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.8 }}
+        style={{
+          backgroundImage:
+            "url(https://wallpapers.com/images/hd/makeup-brush-powder-art-q4e4bg9wujkivnvk.jpg)",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          height: "450px",
+          color: "#FFFFFF",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          textAlign: "center",
+        }}
       >
-        <div>
-          <h1 style={styles.bannerTitle}>Discover Your True Beauty ✨</h1>
-          <p style={styles.bannerSubtitle}>
+        <Box sx={{ padding: 2 }}>
+          <Typography
+            variant="h3"
+            sx={{
+              fontWeight: "bold",
+              color: "#FF6FAE",
+              textShadow: "2px 2px #4E1182",
+            }}
+          >
+            Discover Your True Beauty ✨
+          </Typography>
+          <Typography
+            variant="subtitle1"
+            sx={{ color: "#CCCCCC", marginTop: 2 }}
+          >
             Exclusive deals on the best beauty and skincare products.
-          </p>
-        </div>
-      </div>
+          </Typography>
+        </Box>
+      </motion.div>
     </>
   );
 }
-
-// Styles
-const styles = {
-  navbar: {
-    backgroundColor: '#1E1E1E', // Black background
-  },
-  brand: {
-    color: '#FF6FAE', // Pink brand name
-    fontSize: '1.5rem',
-    fontWeight: 'bold',
-    textDecoration: 'none',
-  },
-  toggle: {
-    backgroundColor: '#FF6FAE', // Pink toggle button
-    border: 'none',
-    color: '#FFFFFF', // White toggle icon
-  },
-  button: {
-    color: '#FFFFFF', // White text
-    borderColor: '#FF6FAE', // Pink outline
-    backgroundColor: 'transparent',
-    marginLeft: '8px',
-    transition: 'all 0.3s',
-  },
-  navLink: {
-    color: '#FFFFFF',
-    textDecoration: 'none',
-  },
-  cartButton: {
-    backgroundColor: '#FF6FAE', // Solid pink
-    border: 'none',
-    color: '#FFFFFF', // White text
-    transition: 'all 0.3s',
-  },
-  banner: {
-    backgroundImage:
-      'url(https://wallpapers.com/images/hd/makeup-brush-powder-art-q4e4bg9wujkivnvk.jpg)',
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    height: '450px',
-    color: '#FFFFFF',
-    // marginTop: '1px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  bannerTitle: {
-    fontSize: '2.5rem',
-    fontWeight: 'bold',
-    color: '#FF6FAE', // Pink title
-    textShadow: '2px 2px #4E1182', // Violet shadow
-  },
-  bannerSubtitle: {
-    fontSize: '1.2rem',
-    marginTop: '10px',
-    color: '#CCCCCC', // Light grey subtitle
-  },
-};
 
 export default Header;

@@ -1,10 +1,15 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-
-import Card from "react-bootstrap/Card";
-import Button from "react-bootstrap/Button";
-import Stack from "react-bootstrap/Stack";
+import {
+  Card,
+  CardMedia,
+  CardContent,
+  Typography,
+  CardActions,
+  Button,
+  Stack,
+} from "@mui/material";
 
 const CardProduct = ({ product }) => {
   const navigate = useNavigate();
@@ -34,76 +39,76 @@ const CardProduct = ({ product }) => {
       transition={{ duration: 0.3 }}
     >
       <Card
-        className="shadow-lg border-0 h-100"
-        style={{
-          background: "linear-gradient(135deg, #FFC1E3, #D1C4E9)", // Pink-violet gradient
+        sx={{
+          boxShadow: 3,
           borderRadius: "12px",
-          color: "#1E1E1E", // Black for text
+          background: "#1E1E1E",
+          color: "#6A0DAD",
+          height: "100%",
+          display: "flex",
+          flexDirection: "column",
         }}
       >
-        <Card.Img
-          variant="top"
-          src={product.image_url}
+        <CardMedia
+          component="img"
+          height="220"
+          image={product.image_url}
           alt={product.product_name}
-          style={{
-            height: "220px",
-            objectFit: "cover",
+          sx={{
             borderTopLeftRadius: "12px",
             borderTopRightRadius: "12px",
+            objectFit: "cover",
           }}
         />
-        <Card.Body className="d-flex flex-column">
-          <Card.Title
-            className="text-center"
-            style={{
-              color: "#FF6FAE", // Bright pink for title
+        <CardContent sx={{ flexGrow: 1 }}>
+          <Typography
+            variant="h6"
+            align="center"
+            sx={{
+              color: "#FF6FAE",
               fontWeight: "bold",
-              fontSize: "1.25rem",
+              marginBottom: 1,
             }}
           >
             {product.product_name}
-          </Card.Title>
-          <Card.Text
-            className="text-center"
-            style={{
-              color: "#6c757d", // Muted grey for description
-              fontSize: "1rem",
-              marginBottom: "1rem",
-            }}
+          </Typography>
+          <Typography
+            variant="body2"
+            align="center"
+            color="#FF6FAE"
+            sx={{ marginBottom: 2 }}
           >
             {product.product_description}
-          </Card.Text>
-          <Stack gap={2} className="my-3 text-center">
-            <div style={{ color: "#495057" }}>
+          </Typography>
+          <Stack spacing={1} sx={{ marginBottom: 2 }}>
+            <Typography variant="body2" align="center" color="#FF6FAE">
               <strong>✨ Stock:</strong> {product.stock}
-            </div>
-            <div style={{ color: "#495057" }}>
+            </Typography>
+            <Typography variant="body2" align="center" color="#FF6FAE">
               <strong>📦 Category:</strong> {product.category}
-            </div>
-            <div style={{ color: "#495057" }}>
+            </Typography>
+            <Typography variant="body2" align="center" color="#FF6FAE">
               <strong>💲 Price:</strong> ${product.price}
-            </div>
+            </Typography>
           </Stack>
+        </CardContent>
+        <CardActions
+          sx={{ justifyContent: "center" }}
+          style={{ paddingBottom: "12px" }}
+        >
           <Button
-            className="mt-auto"
-            style={{
-              backgroundColor: "#6A0DAD", // Deep violet
-              border: "none",
-              fontSize: "1rem",
-              fontWeight: "500",
-              transition: "background-color 0.3s ease-in-out",
+            variant="contained"
+            sx={{
+              backgroundColor: "#FF6FAE",
+              fontWeight: 500,
+              textTransform: "none",
+              "&:hover": { backgroundColor: "#FF6FAE" },
             }}
-            onMouseOver={(e) =>
-              (e.target.style.backgroundColor = "#4E1182") // Darker violet on hover
-            }
-            onMouseOut={(e) =>
-              (e.target.style.backgroundColor = "#6A0DAD") // Original deep violet
-            }
             onClick={() => handleIdFromProduct(product.id)}
           >
             View Product
           </Button>
-        </Card.Body>
+        </CardActions>
       </Card>
     </motion.div>
   );
