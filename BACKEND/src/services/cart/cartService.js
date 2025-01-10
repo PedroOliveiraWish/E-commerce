@@ -3,11 +3,11 @@ import {
   createCart,
   updateCart,
   deleteCart,
+  empityCart
 } from "../../models/cart/cartModel.js";
 
 const getCartService = async (user_foreign) => {
   const cart = await getCart(user_foreign);
-
 
   return cart;
 };
@@ -33,5 +33,11 @@ const updateCartService = async (id, quantity) => {
     return updatedCart;
 };
 
-export { getCartService, createCartService, deleteCartService, updateCartService };
+const emptyCartService = async (user_foreign) => {
+  const result = await empityCart(user_foreign);
+
+  return result
+}
+
+export { getCartService, createCartService, deleteCartService, updateCartService, emptyCartService };
 

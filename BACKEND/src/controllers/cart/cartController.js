@@ -1,4 +1,4 @@
-import { getCartService, createCartService, updateCartService, deleteCartService } from "../../services/cart/cartService.js";
+import { getCartService, createCartService, updateCartService, deleteCartService, emptyCartService } from "../../services/cart/cartService.js";
 
 const getCartController = async (req, res) => {
     const {id} = req.params;
@@ -52,4 +52,16 @@ const deleteCartController = async (req, res) => {
     }
 }
 
-export { createCartController, getCartController, updateCartController, deleteCartController };
+const empityCartController = async (req, res) => {
+    const {id} = req.params;
+
+    try {
+        const emptyCart = await emptyCartService(id);
+        return res.status(201).json(emptyCart);
+    } catch (error) {
+        console.error(error)
+        return res.status(400).json({ message: error });
+    }
+}
+
+export { createCartController, getCartController, updateCartController, deleteCartController, empityCartController };

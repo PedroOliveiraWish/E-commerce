@@ -46,30 +46,35 @@ const Footer = () => {
 
 const styles = {
   footer: {
-    backgroundColor: '#f8f9fa',
+    backgroundColor: '#1E1E1E', // Black background
     padding: '2rem 0',
     marginTop: '2rem',
-    borderTop: '1px solid #e7e7e7',
+    color: '#FFFFFF', // White text
+    borderTop: '1px solid #4E1182', // Violet border on top
   },
   title: {
     fontSize: '1.2rem',
     fontWeight: 'bold',
     marginBottom: '1rem',
-    color: '#333',
+    color: '#FF6FAE', // Bright pink for titles
   },
   text: {
     fontSize: '0.9rem',
-    color: '#555',
+    color: '#CCCCCC', // Light grey text for better contrast
   },
   link: {
     fontSize: '0.9rem',
-    color: '#555',
+    color: '#FF6FAE', // Bright pink for links
     textDecoration: 'none',
     marginBottom: '0.5rem',
+    transition: 'color 0.3s',
+  },
+  linkHover: {
+    color: '#D63384', // Slightly darker pink on hover
   },
   copyright: {
     fontSize: '0.8rem',
-    color: '#777',
+    color: '#888888', // Muted grey for copyright
     marginTop: '1rem',
   },
 };

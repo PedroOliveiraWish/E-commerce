@@ -6,7 +6,6 @@ import {
   MDBCol,
   MDBContainer,
   MDBIcon,
-  MDBInput,
   MDBRow,
   MDBTypography,
 } from "mdb-react-ui-kit";
@@ -14,6 +13,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
 import CartCard from "../component/Cart/CartCard";
+
 import { userContext } from "../context/useContext";
 
 const CartPage = () => {
@@ -24,8 +24,6 @@ const CartPage = () => {
   useEffect(() => {
     const getCarts = async () => {
       try {
-        console.log(user.id);
-
         const response = await fetch(
           `http://localhost:3001/api/carts/${user.id}`,
           {
@@ -49,8 +47,41 @@ const CartPage = () => {
     }
   }, [setCarts, loading, user]);
 
+  const handleRegisterOrder = async () => {
+    let price = carts
+      .reduce((acc, cart) => acc + parseFloat(cart.price) * cart.quantity, 0)
+      .toFixed(2);
+
+    const order = {
+      user_foreign: user.id,
+      price: price,
+      carts: carts,
+    };
+
+    try {
+      const response = await fetch("http://localhost:3001/api/orders", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(order),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert(data.message);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
-    <section className="h-100 h-custom" style={{ backgroundColor: "#eee", minHeight: '100vh' }}>
+    <section
+      className="h-100 h-custom"
+      style={{ backgroundColor: "#eee", minHeight: "100vh" }}
+    >
       <MDBContainer className="py-5 h-100">
         <MDBRow className="justify-content-center align-items-center h-100">
           <MDBCol size="12">
@@ -113,7 +144,14 @@ const CartPage = () => {
                           items {carts.length}
                         </MDBTypography>
                         <MDBTypography tag="h5">
-                            R$ {carts.reduce((acc, cart) => acc + (parseFloat(cart.price) * cart.quantity), 0).toFixed(2)}
+                          R${" "}
+                          {carts
+                            .reduce(
+                              (acc, cart) =>
+                                acc + parseFloat(cart.price) * cart.quantity,
+                              0
+                            )
+                            .toFixed(2)}
                         </MDBTypography>
                       </div>
 
@@ -124,12 +162,24 @@ const CartPage = () => {
                           Total price
                         </MDBTypography>
                         <MDBTypography tag="h5">
-                          R$ {carts.reduce((acc, cart) => acc + (parseFloat(cart.price) * cart.quantity), 0).toFixed(2)}
+                          R${" "}
+                          {carts
+                            .reduce(
+                              (acc, cart) =>
+                                acc + parseFloat(cart.price) * cart.quantity,
+                              0
+                            )
+                            .toFixed(2)}
                         </MDBTypography>
                       </div>
 
-                      <MDBBtn color="dark" block size="lg">
-                        Register
+                      <MDBBtn
+                        color="dark"
+                        block
+                        size="lg"
+                        onClick={handleRegisterOrder}
+                      >
+                        Place order
                       </MDBBtn>
                     </div>
                   </MDBCol>

@@ -1,114 +1,111 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Stack from "react-bootstrap/Stack";
 
-const cardStyles = {
-  container: {
-    overflow: "hidden",
-    borderRadius: "12px",
-    transition: "transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out",
-    background: "#fff5f8",
-    border: "none",
-    boxShadow: "0 0 0 2px rgba(0, 0, 0, 0.062)",
-  },
-  containerHover: {
-    transform: "translateY(-5px)",
-    boxShadow: "0 4px 15px rgba(0,0,0,0.1)",
-  },
-  image: {
-    height: "220px",
-    objectFit: "cover",
-    borderTopLeftRadius: "12px",
-    borderTopRightRadius: "12px",
-  },
-  title: {
-    fontSize: "1.25rem",
-    fontWeight: "bold",
-    color: "#d63384",
-    marginBottom: "8px",
-  },
-  description: {
-    fontSize: "0.95rem",
-    color: "#6c757d",
-    marginBottom: "12px",
-  },
-  details: {
-    fontSize: "0.9rem",
-    color: "#495057",
-    marginBottom: "4px",
-  },
-  button: {
-    backgroundColor: "#d63384",
-    border: "none",
-    transition: "background-color 0.3s ease-in-out",
-  },
-  buttonHover: {
-    backgroundColor: "#bd2c74",
-  },
-};
-
 const CardProduct = ({ product }) => {
   const navigate = useNavigate();
 
   const handleIdFromProduct = async (id) => {
-    console.log(id)
-
     try {
-      const response = await fetch(`http://localhost:3001/api/products/${id}` , {
+      const response = await fetch(`http://localhost:3001/api/products/${id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-        }
-      })
+        },
+      });
 
       if (response.ok) {
-        
-        const data = await response.json()
-        console.log(data)
-
-         navigate(`/product/${id}`, { state: { product: data} });
+        const data = await response.json();
+        navigate(`/product/${id}`, { state: { product: data } });
       }
-
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
   return (
-    <Card
-      key={product.id}
-      style={cardStyles.container}
-      className="product-card"
+    <motion.div
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+      transition={{ duration: 0.3 }}
     >
-      <Card.Img
-        variant="top"
-        src={product.image_url}
-        alt={product.product_name}
-        style={cardStyles.image}
-      />
-      <Card.Body className="d-flex flex-column justify-content-between">
-        <Card.Title style={cardStyles.title}>{product.product_name}</Card.Title>
-        <Card.Text style={cardStyles.description}>
-          {product.product_description}
-        </Card.Text>
-        <Stack className="mb-3">
-          <span style={cardStyles.details}>✨ <strong>Stock:</strong> {product.stock}</span>
-          <span style={cardStyles.details}>📦 <strong>Category:</strong> {product.category}</span>
-          <span style={cardStyles.details}>💲 <strong>Price:</strong> ${product.price}</span>
-        </Stack>
-        <Button
-          style={cardStyles.button}
-          onClick={() => handleIdFromProduct(product.id)}
-          onMouseOver={(e) => (e.target.style.backgroundColor = cardStyles.buttonHover.backgroundColor)}
-          onMouseOut={(e) => (e.target.style.backgroundColor = cardStyles.button.backgroundColor)}
-        >
-          View Product
-        </Button>
-      </Card.Body>
-    </Card>
+      <Card
+        className="shadow-lg border-0 h-100"
+        style={{
+          background: "linear-gradient(135deg, #FFC1E3, #D1C4E9)", // Pink-violet gradient
+          borderRadius: "12px",
+          color: "#1E1E1E", // Black for text
+        }}
+      >
+        <Card.Img
+          variant="top"
+          src={product.image_url}
+          alt={product.product_name}
+          style={{
+            height: "220px",
+            objectFit: "cover",
+            borderTopLeftRadius: "12px",
+            borderTopRightRadius: "12px",
+          }}
+        />
+        <Card.Body className="d-flex flex-column">
+          <Card.Title
+            className="text-center"
+            style={{
+              color: "#FF6FAE", // Bright pink for title
+              fontWeight: "bold",
+              fontSize: "1.25rem",
+            }}
+          >
+            {product.product_name}
+          </Card.Title>
+          <Card.Text
+            className="text-center"
+            style={{
+              color: "#6c757d", // Muted grey for description
+              fontSize: "1rem",
+              marginBottom: "1rem",
+            }}
+          >
+            {product.product_description}
+          </Card.Text>
+          <Stack gap={2} className="my-3 text-center">
+            <div style={{ color: "#495057" }}>
+              <strong>✨ Stock:</strong> {product.stock}
+            </div>
+            <div style={{ color: "#495057" }}>
+              <strong>📦 Category:</strong> {product.category}
+            </div>
+            <div style={{ color: "#495057" }}>
+              <strong>💲 Price:</strong> ${product.price}
+            </div>
+          </Stack>
+          <Button
+            className="mt-auto"
+            style={{
+              backgroundColor: "#6A0DAD", // Deep violet
+              border: "none",
+              fontSize: "1rem",
+              fontWeight: "500",
+              transition: "background-color 0.3s ease-in-out",
+            }}
+            onMouseOver={(e) =>
+              (e.target.style.backgroundColor = "#4E1182") // Darker violet on hover
+            }
+            onMouseOut={(e) =>
+              (e.target.style.backgroundColor = "#6A0DAD") // Original deep violet
+            }
+            onClick={() => handleIdFromProduct(product.id)}
+          >
+            View Product
+          </Button>
+        </Card.Body>
+      </Card>
+    </motion.div>
   );
 };
 

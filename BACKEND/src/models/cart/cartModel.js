@@ -54,9 +54,6 @@ const createCart = (cart) => {
 const deleteCart = (id) => {
   const query = "DELETE FROM cart WHERE id = ?";
 
-  console.log('\nMODEL')
-  console.log(id)
-
   return new Promise((resolve, reject) => {
     connection_create.query(query, [id], (error, results) => {
       if (error) {
@@ -83,4 +80,18 @@ const updateCart = (id, quantity) => {
   });
 };
 
-export { getCart, createCart, deleteCart, updateCart };
+const empityCart = (user_foreign) => {
+  const query = "DELETE FROM cart WHERE user_foreign = ?";
+
+  return new Promise((resolve, reject) => {
+    connection_create.query(query, [user_foreign], (error, results) => {
+      if (error) {
+        reject(error);
+        console.error(error);
+      }
+      resolve(results);
+    });
+  });
+}
+
+export { getCart, createCart, deleteCart, updateCart, empityCart };

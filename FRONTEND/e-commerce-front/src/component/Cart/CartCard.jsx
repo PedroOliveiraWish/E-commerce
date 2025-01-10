@@ -65,7 +65,7 @@ const CartCard = ({cart}) => {
     }
 
     try {
-      const response = await fetch(`http://localhost:3001/api/carts/${cart.id}`, {
+      const response = await fetch(`http://localhost:3001/api/carts/${cart.cart_id}`, {
         method: "PUT",
          headers: {
           "Content-Type": "application/json",

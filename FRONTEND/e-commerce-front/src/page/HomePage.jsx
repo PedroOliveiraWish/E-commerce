@@ -15,7 +15,6 @@ import Footer from "../component/Footer/Footer";
 
 function Home() {
   const [products, setProducts] = useState([]);
-
   const { user, loading } = useContext(userContext);
   const navigate = useNavigate();
 
@@ -37,7 +36,6 @@ function Home() {
         });
 
         const data = await response.json();
-
         setProducts(data);
       } catch (error) {
         console.error(error);
@@ -48,35 +46,57 @@ function Home() {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div className="text-center py-5">Loading...</div>;
   }
 
   return (
-    <div>
+    <div className="bg-light">
       <Header />
 
-      {/* Intermediate Section */}
-      <section style={styles.bannerSection}>
-        <Container className="text-center py-5">
-          <h2 style={styles.bannerTitle}>Discover Our Exclusive Beauty Products</h2>
-          <p style={styles.bannerSubtitle}>
-            Quality products to enhance your natural beauty. Shop now and enjoy exclusive discounts!
+      {/* Banner Section */}
+      <section
+        className="text-center py-5"
+        style={{
+          background: "linear-gradient(135deg, #6A0DAD, #FFC1E3)",
+          color: "#FFFFFF",
+        }}
+      >
+        <Container>
+          <h2 className="display-4 fw-bold">
+            Discover Our Exclusive Beauty Products
+          </h2>
+          <p className="fs-5">
+            Quality products to enhance your natural beauty. Shop now and enjoy
+            exclusive discounts!
           </p>
-          <Button variant="light" size="md" style={{border: '1px solid #ff9a9e', padding: '.5rem 1rem', background:'none', color: '#ff9a9e'}}>Explore Now</Button>
+          <Button
+            variant="light"
+            size="lg"
+            className="rounded-pill px-4 py-2"
+            style={{
+              color: "#fff",
+              border: "2px solid #FF6FAE",
+              background: "none",
+            }}
+            onMouseOver={(e) => (e.target.style.backgroundColor = "#FF6FAE")}
+            onMouseOut={(e) => (e.target.style.backgroundColor = "transparent")}
+          >
+            Explore Now
+          </Button>
         </Container>
       </section>
 
       {/* Product Section */}
-      <Container>
-        <Row className="d-flex">
+      <Container className="py-5">
+        <Row className="g-4">
           {products.map((product) => (
             <Col
               key={product.id}
-              className="d-flex justify-content-center my-3"
               xs={12}
               sm={6}
               md={4}
               lg={3}
+              className="d-flex justify-content-center"
             >
               <CardProduct product={product} />
             </Col>
@@ -88,22 +108,5 @@ function Home() {
     </div>
   );
 }
-
-const styles = {
-  bannerSection: {
-    background: '#fffffff0',
-    color: '#ff9a9e',
-    textAlign: 'center',
-    margin: '1rem 0'
-  },
-  bannerTitle: {
-    fontSize: '2.5rem',
-    fontWeight: 'bold',
-  },
-  bannerSubtitle: {
-    fontSize: '1.2rem',
-    marginBottom: '1.5rem',
-  },
-};
 
 export default Home;
